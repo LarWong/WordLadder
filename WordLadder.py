@@ -96,10 +96,10 @@ def heuristic(a,b):
             count += 1
     return count
 
-def generate_ladder(group,master_dict):
-    pair = group.split(',')
+def generate_ladder(pair,master_dict):
     start = pair[0]
     finish = pair[1]
+
     explored = set()
     frontier = Pqueue();
     begin = Node(start,0,heuristic(start,finish))
@@ -118,12 +118,13 @@ def generate_ladder(group,master_dict):
 
 with open(sys.argv[1],'r') as input_texts:
     source = input_texts.read().strip().split('\n')
+    pairs = [x.split(',') for x in source]
 
-master_dict = create_dict('dictall.txt',4)
+master_dict = create_dict('dictall.txt',len(pairs[0][0]))
 
 output = []
 
-for pair in source:
+for pair in pairs:
     output.append(','.join(generate_ladder(pair,master_dict)))
 
 with open(sys.argv[2],'w') as output_texts:
